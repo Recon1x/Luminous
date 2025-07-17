@@ -1,0 +1,25 @@
+import sqlite3
+
+conn = sqlite3.connect("example.db")
+cursor = conn.cursor()
+
+
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS users (
+    id TEXT PRIMARY KEY,
+    points INTEGER
+)
+""")
+
+
+user_id = "123456789"
+points = 100
+cursor.execute("INSERT OR REPLACE INTO users (id, points) VALUES (?, ?)", (user_id, points))
+
+
+cursor.execute("SELECT * FROM users")
+for row in cursor.fetchall():
+    print(f"User ID: {row[0]}, Points: {row[1]}")
+
+conn.commit()
+conn.close()
