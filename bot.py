@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 if not TOKEN:
-    raise ValueError("❌ DISCORD_TOKEN missing from .env")
+    raise ValueError("DISCORD_TOKEN missing from .env")
 
 intents = discord.Intents.default()
 intents.message_content = True
