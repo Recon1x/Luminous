@@ -19,7 +19,7 @@ intents.members = True
 import discord
 
 intents = discord.Intents.default()
-intents.message_content = True  # Required to read message text
+intents.message_content = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 
@@ -54,14 +54,13 @@ def remove_modmail(user_id):
 
 @bot.event
 async def on_ready():
-    print(f"✅ Logged in as {bot.user} | ID: {bot.user.id}")
+    print(f"Logged in as {bot.user} | ID: {bot.user.id}")
 
 @bot.event
 async def on_message(message):
     if message.author.bot:
         return
 
-    # 📨 Incoming DM
     if isinstance(message.channel, discord.DMChannel):
         guild = bot.get_guild(GUILD_ID)
         if not guild:
@@ -73,8 +72,7 @@ async def on_message(message):
 
         channel_id = get_channel_id(message.author.id)
         channel = guild.get_channel(channel_id) if channel_id else None
-
-        # Create channel if needed
+        
         if channel is None:
             channel = await category.create_text_channel(name=f"modmail-{message.author.name}".replace(" ", "-"))
             await channel.send(f"📬 **New Modmail from {message.author}** (ID: `{message.author.id}`)")
@@ -83,7 +81,6 @@ async def on_message(message):
         await channel.send(f"**{message.author}:** {message.content}")
         await message.channel.send("📨 Your message has been sent to the moderators, please be pateint whilst you wait for a response.")
 
-    # 🗣️ Message in modmail channel
     elif message.guild:
         if message.channel.category and message.channel.category.name == CATEGORY_NAME:
             for user_id, channel_id in fetch_all_modmail():
