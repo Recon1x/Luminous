@@ -1,0 +1,1 @@
+Hiya! Luminuos is a Discord Bot that is made for the roblox game ER:LC.
